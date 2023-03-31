@@ -1,7 +1,11 @@
 package main
 
 import (
-	"github.com/5elenay/revoltgo"
+	"os"
+	"os/signal"
+	"syscall"
+
+	revoltgo "github.com/itzTheMeow/revolt-go"
 	"github.com/pterm/pterm"
 )
 
@@ -22,17 +26,28 @@ func main() {
 	// If you just want to print text, you should use this instead:
 	// 	pterm.Println("Hello, World!")
 
-	pterm.DefaultBasicText.Println("test")
-	pterm.DefaultBasicText.Println(getLoginToken())
-
 	client := revoltgo.Client{
 		SelfBot: &revoltgo.SelfBot{
 			SessionToken: getLoginToken(),
-			//UserId:       "-",
 		},
 	}
 
 	client.OnMessage(func(m *revoltgo.Message) {
 		pterm.DefaultBasicText.Println(m.Content)
 	})
+
+	client.Start()
+
+	// wait for close
+	sc := make(chan os.Signal, 1)
+
+	signal.Notify(
+		sc,
+		syscall.SIGINT,
+		syscall.SIGTERM,
+		os.Interrupt,
+	)
+	<-sc
+
+	client.Destroy()
 }

@@ -10,7 +10,6 @@ import (
 )
 
 func initSettings() {
-	config.WithOptions(config.ParseEnv)
 	config.AddDriver(json.Driver)
 
 	dir, err := os.UserConfigDir()
@@ -34,6 +33,7 @@ func initSettings() {
 		fil.Close()
 	}
 
+	config.WithOptions(config.ParseEnv, config.SaveFileOnSet(dir, "json"))
 	err = config.LoadFiles(dir)
 	if err != nil {
 		panic(err)

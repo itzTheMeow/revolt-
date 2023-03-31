@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/5elenay/revoltgo"
 	"github.com/gookit/config/v2"
+	revoltgo "github.com/itzTheMeow/revolt-go"
 	"github.com/pterm/pterm"
 )
 
@@ -31,7 +31,7 @@ func checkLogin() {
 	}
 
 	client.HTTP = &http.Client{}
-	err := client.Auth()
+	err := client.Auth(Config().brandName)
 	if err != nil {
 		loader.Fail("Failed to login: " + err.Error())
 		res, _ := pterm.DefaultInteractiveConfirm.WithDefaultValue(true).Show("Try again?")
