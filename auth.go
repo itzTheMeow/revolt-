@@ -1,9 +1,11 @@
 package main
 
 import (
+	"net/http"
 	"os"
 
 	"github.com/5elenay/revoltgo"
+	"github.com/gookit/config/v2"
 	"github.com/pterm/pterm"
 )
 
@@ -28,6 +30,7 @@ func checkLogin() {
 		},
 	}
 
+	client.HTTP = &http.Client{}
 	err := client.Auth()
 	if err != nil {
 		loader.Fail("Failed to login: " + err.Error())
@@ -39,5 +42,6 @@ func checkLogin() {
 		}
 	}
 
+	config.Set("token", client.SelfBot.SessionToken)
 	loader.Success()
 }

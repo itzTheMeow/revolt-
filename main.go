@@ -13,6 +13,7 @@ func main() {
 
 	pterm.Println("Checking login...")
 	checkLogin()
+	Clear()
 
 	// A BasicText printer is used to print text, without special formatting.
 	// As it implements the TextPrinter interface, you can use it in combination with other printers.
@@ -21,13 +22,13 @@ func main() {
 	// If you just want to print text, you should use this instead:
 	// 	pterm.Println("Hello, World!")
 
+	pterm.DefaultBasicText.Println("test")
 	pterm.DefaultBasicText.Println(getLoginToken())
 
 	client := revoltgo.Client{
 		SelfBot: &revoltgo.SelfBot{
-			Id:           "session id",
-			SessionToken: "session token",
-			UserId:       "user id",
+			SessionToken: getLoginToken(),
+			//UserId:       "-",
 		},
 	}
 
